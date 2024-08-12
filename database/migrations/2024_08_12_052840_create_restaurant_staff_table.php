@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('restaurant_staff', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('role');
+            $table->string('contact');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
