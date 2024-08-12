@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RestaurantStaff extends Model
 {
+    use SoftDeletes;
     use HasFactory;
+    protected $fillable=['name','role','contact']
 }
