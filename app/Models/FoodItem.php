@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class RestaurantStaff extends Model
+class FoodItem extends Model
 {
-    use SoftDeletes;
     use HasFactory;
-    protected $fillable=['name','profile','role','contact'];
+    use SoftDeletes;
+    protected $fillable = ['name', 'descriptions', 'image', 'price', 'availability'];
 }

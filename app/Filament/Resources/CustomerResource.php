@@ -20,6 +20,8 @@ class CustomerResource extends Resource
     protected static ?string $navigationLevel = 'customer';
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $modelLabel = 'Customer';
+    protected static ?int $navigationSort = 2;
+
     // protected static ?string $navigationGroup = 'Our Customers';
     // protected static ?string $slug = 'Our Customers/Customer';
 
@@ -51,6 +53,8 @@ class CustomerResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('address')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
