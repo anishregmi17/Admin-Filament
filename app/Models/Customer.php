@@ -10,5 +10,10 @@ class Customer extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $fillable= ['name','email','phone','address'];
+    protected $fillable = ['name', 'email', 'phone', 'address'];
+
+    public function foodOrderings()
+    {
+        return $this->hasMany(FoodOrdering::class);
+    }
 }
