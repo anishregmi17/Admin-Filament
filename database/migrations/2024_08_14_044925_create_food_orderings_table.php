@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('food_item_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->string('status')->default('pending');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
