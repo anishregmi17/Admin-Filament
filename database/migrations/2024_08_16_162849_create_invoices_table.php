@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('food_ordering_id')->constrained()->onDelete('cascade');
+            $table->decimal('amount', 8, 2);
+            $table->string('status')->default('unpaid');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
