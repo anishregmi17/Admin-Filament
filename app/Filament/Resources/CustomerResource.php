@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
-use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -22,25 +21,35 @@ class CustomerResource extends Resource
     protected static ?string $modelLabel = 'Customer';
     protected static ?int $navigationSort = 2;
 
-    // protected static ?string $navigationGroup = 'Our Customers';
-    // protected static ?string $slug = 'Our Customers/Customer';
-
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required(),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->required(),
-                Forms\Components\Textarea::make('address')
-                    ->required()
-                    ->columnSpanFull(),
+                Forms\Components\Section::make('Customer Details')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->autofocus()
+                            ->helperText('Enter the full name of the customer'),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(Customer::class, 'email')
+                            ->helperText('Enter the customer’s email address'),
+                        Forms\Components\TextInput::make('phone')
+                            ->tel()
+                            ->required()
+                            ->maxLength(15)
+                            ->helperText('Enter the customer’s phone number'),
+                        Forms\Components\Textarea::make('address')
+                            ->required()
+                            ->rows(3)
+                            ->maxLength(500)
+                            ->helperText('Enter the customer’s address')
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -49,15 +58,25 @@ class CustomerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Date Joined')
+                    ->date()
+                    ->color('success')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -70,24 +89,27 @@ class CustomerResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('Active')
+                    ->query(fn(Builder $query): Builder => $query->whereNull('deleted_at')),
+                Tables\Filters\Filter::make('Recently Added')
+                    ->query(fn(Builder $query): Builder => $query->where('created_at', '>=', now()->subMonth())),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
