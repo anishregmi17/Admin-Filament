@@ -19,7 +19,7 @@ class CreateFoodOrdering extends CreateRecord
     protected function getActions(): array
     {
         return [
-            Actions\ButtonAction::make('view')
+            Actions\Action::make('view')
                 ->label('View Orders')
                 ->url(fn() => $this->getResource()::getUrl('index'))
                 ->color('primary'),

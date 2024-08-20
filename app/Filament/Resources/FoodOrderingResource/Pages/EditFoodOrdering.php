@@ -15,7 +15,7 @@ class EditFoodOrdering extends EditRecord
         return [
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
-            Actions\ButtonAction::make('duplicate')
+            Actions\Action::make('duplicate')
                 ->label('Duplicate Order')
                 ->action('duplicateOrder')
                 ->color('secondary'),
