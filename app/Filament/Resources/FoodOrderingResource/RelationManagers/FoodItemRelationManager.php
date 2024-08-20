@@ -1,32 +1,28 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\FoodOrderingResource\RelationManagers;
 
-use App\Filament\Resources\FoodItemResource\Pages;
-use App\Models\FoodItem;
 use Filament\Forms;
-use Filament\Resources\Resource;
+use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Table;
 
-class FoodItemResource extends Resource
+class FoodItemsRelationManager extends RelationManager
 {
-    protected static ?string $model = FoodItem::class;
+    protected static string $relationship = 'foodItems'; // Ensure this matches the actual relationship name
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?int $navigationSort = 3;
-
-    public static function form(Forms\Form $form): Forms\Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Food Item Name')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('descriptions')
                     ->label('Descriptions')
-                    ->required()
+                    ->maxLength(65535)
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
                     ->label('Image')
@@ -43,12 +39,13 @@ class FoodItemResource extends Resource
             ]);
     }
 
-    public static function table(Tables\Table $table): Tables\Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Food Item Name')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('descriptions')
                     ->label('Descriptions')
@@ -62,50 +59,22 @@ class FoodItemResource extends Resource
                 Tables\Columns\IconColumn::make('availability')
                     ->label('Available')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->label('Deleted At')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 // Add custom filters here if needed
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            // Add relation managers if needed
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListFoodItems::route('/'),
-            'create' => Pages\CreateFoodItem::route('/create'),
-            'view' => Pages\ViewFoodItem::route('/{record}'),
-            'edit' => Pages\EditFoodItem::route('/{record}/edit'),
-        ];
     }
 }

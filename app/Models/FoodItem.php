@@ -12,4 +12,9 @@ class FoodItem extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable = ['name', 'descriptions', 'image', 'price', 'availability'];
+
+    public function foodOrders()
+    {
+        return $this->hasMany(FoodOrdering::class);
+    }
 }

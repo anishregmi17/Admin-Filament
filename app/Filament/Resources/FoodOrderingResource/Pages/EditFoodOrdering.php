@@ -15,6 +15,20 @@ class EditFoodOrdering extends EditRecord
         return [
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
+            Actions\ButtonAction::make('duplicate')
+                ->label('Duplicate Order')
+                ->action('duplicateOrder')
+                ->color('secondary'),
         ];
+    }
+
+    protected function duplicateOrder()
+    {
+        $newOrder = $this->record->replicate();
+        $newOrder->save();
+
+        $this->notify('success', 'Order duplicated successfully!');
+
+        return redirect(FoodOrderingResource::getUrl('edit', ['record' => $newOrder->getKey()]));
     }
 }

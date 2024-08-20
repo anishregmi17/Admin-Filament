@@ -3,14 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FoodOrderingResource\Pages;
-use App\Models\Customer;
 use App\Models\FoodItem;
 use App\Models\FoodOrdering;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Filament\Resources\FoodOrderingResource\RelationManagers\FoodItemsRelationManager;
+// use App\Filament\Resources\FoodOrderingResource\RelationManagers\CustomersRelationManager;
 
 class FoodOrderingResource extends Resource
 {
@@ -20,29 +21,35 @@ class FoodOrderingResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\BelongsToSelect::make('customer_id')
-                    ->relationship('customer', 'name')  // Assuming 'name' is the column you want to display
+                    ->relationship('customer', 'name') // Assumes 'name' is the display column
                     ->required()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Customer'),
+
                 Forms\Components\BelongsToSelect::make('food_item_id')
-                    ->relationship('foodItem', 'name')  // Assuming 'name' is the column you want to display
+                    ->relationship('foodItem', 'name') // Assumes 'name' is the display column
                     ->required()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Food Item'),
+
                 Forms\Components\TextInput::make('quantity')
+                    ->numeric()
                     ->required()
-                    ->numeric(),
+                    ->label('Quantity'),
+
                 Forms\Components\Select::make('status')
                     ->required()
                     ->options([
                         'pending' => 'Pending',
                         'completed' => 'Completed',
                         'canceled' => 'Canceled',
-                    ]),
+                    ])
+                    ->label('Status'),
             ]);
     }
 
@@ -50,31 +57,40 @@ class FoodOrderingResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('customer.name')  // Accessing the related model's 'name' column
+                Tables\Columns\TextColumn::make('customer.name')
                     ->label('Customer')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foodItem.name')  // Accessing the related model's 'name' column
+
+                Tables\Columns\TextColumn::make('foodItem.name')
                     ->label('Food Item')
                     ->sortable()
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('quantity')
+                    ->label('Quantity')
                     ->numeric()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
                     ->sortable()
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                // Add filters here if needed
+                // You can add filters here if needed
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -88,7 +104,8 @@ class FoodOrderingResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // Define any relationships for this resource
+            FoodItemsRelationManager::class,
+            // CustomersRelationManager::class, // Uncommented this line
         ];
     }
 
