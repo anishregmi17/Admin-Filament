@@ -10,7 +10,7 @@ use Filament\Tables\Table;
 
 class FoodItemsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'foodItems'; // Ensure this matches the actual relationship name
+    protected static string $relationship = 'FoodItems'; // Ensure this matches the actual relationship name
 
     public function form(Form $form): Form
     {
