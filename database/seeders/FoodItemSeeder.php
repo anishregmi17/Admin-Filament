@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\FoodItem;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Customer;
 
-class CustomerSeeder extends Seeder
+class FoodItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Customer::factory()->count(8)->create();
+        FoodItem::factory()->count(8)->create();
     }
 }
