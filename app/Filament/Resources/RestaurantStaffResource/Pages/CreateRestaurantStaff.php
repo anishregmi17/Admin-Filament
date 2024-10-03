@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateRestaurantStaff extends CreateRecord
 {
     protected static string $resource = RestaurantStaffResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
