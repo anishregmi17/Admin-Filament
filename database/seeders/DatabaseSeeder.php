@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FoodOrdering;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             RestaurantStaffSeeder::class,
             FoodItemSeeder::class,
+            FoodOrderingSeeder::class,
         ]);
     }
 }
