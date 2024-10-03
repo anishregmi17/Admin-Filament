@@ -19,8 +19,6 @@ class ViewFoodOrdering extends ViewRecord
 
     protected function getRelations(): array
     {
-        return [
-            'foodItems' => \App\Filament\Resources\FoodOrderingResource\RelationManagers\FoodItemsRelationManager::class,
-        ];
+        return [];
     }
 }

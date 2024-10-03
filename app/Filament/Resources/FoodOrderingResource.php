@@ -4,14 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\FoodOrderingResource\Pages;
 use App\Models\FoodItem;
+use App\Filament\Resources\CategoryResource\RelationManagers\CustomerRelationManager;
 use App\Models\FoodOrdering;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Filament\Resources\FoodOrderingResource\RelationManagers\FoodItemsRelationManager;
-// use App\Filament\Resources\FoodOrderingResource\RelationManagers\CustomersRelationManager;
+
 
 class FoodOrderingResource extends Resource
 {
@@ -26,13 +26,13 @@ class FoodOrderingResource extends Resource
         return $form
             ->schema([
                 Forms\Components\BelongsToSelect::make('customer_id')
-                    ->relationship('customer', 'name') // Assumes 'name' is the display column
+                    ->relationship('customer', 'name')
                     ->required()
                     ->searchable()
                     ->label('Customer'),
 
                 Forms\Components\BelongsToSelect::make('food_item_id')
-                    ->relationship('foodItem', 'name') // Assumes 'name' is the display column
+                    ->relationship('foodItem', 'name')
                     ->required()
                     ->searchable()
                     ->label('Food Item'),
@@ -104,8 +104,7 @@ class FoodOrderingResource extends Resource
     public static function getRelations(): array
     {
         return [
-            FoodItemsRelationManager::class,
-            // CustomersRelationManager::class, // Uncommented this line
+            CustomerRelationManager::class
         ];
     }
 
