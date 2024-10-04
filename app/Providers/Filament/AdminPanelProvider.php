@@ -27,7 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Firefly Restro')
+            ->font('Poppins')
+        ->brandName('Firefly Restro')
         ->colors([
                 'primary' => Color::Amber,
             ])
