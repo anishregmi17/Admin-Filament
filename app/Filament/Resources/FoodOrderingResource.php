@@ -3,7 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FoodOrderingResource\Pages;
+use App\Filament\Resources\FoodOrderingResource\RelationManagers\CustomerRelationManager;
+use App\Filament\Resources\FoodOrderingResource\RelationManagers\FoodItemRelationManager;
 use App\Models\FoodOrdering;
+use COM;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -102,6 +105,8 @@ class FoodOrderingResource extends Resource
     public static function getRelations(): array
     {
         return [
+            FoodItemRelationManager::class,
+            CustomerRelationManager::class
         ];
     }
 
