@@ -3,8 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FoodOrderingResource\Pages;
-use App\Models\FoodItem;
-use App\Filament\Resources\CategoryResource\RelationManagers\CustomerRelationManager;
 use App\Models\FoodOrdering;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -25,13 +23,13 @@ class FoodOrderingResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\BelongsToSelect::make('customer_id')
+                Forms\Components\Select::make('customer_id')
                     ->relationship('customer', 'name')
                     ->required()
                     ->searchable()
                     ->label('Customer'),
 
-                Forms\Components\BelongsToSelect::make('food_item_id')
+                Forms\Components\Select::make('food_item_id')
                     ->relationship('foodItem', 'name')
                     ->required()
                     ->searchable()
@@ -104,7 +102,6 @@ class FoodOrderingResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CustomerRelationManager::class
         ];
     }
 
