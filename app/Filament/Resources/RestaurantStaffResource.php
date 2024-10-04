@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class RestaurantStaffResource extends Resource
 {
     protected static ?string $model = RestaurantStaff::class;
+    protected static ?string $navigationGroup = 'Staff & Customers';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
