@@ -10,14 +10,12 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
     protected static ?string $navigationGroup = 'Our Customers';
-    protected static ?string $navigationLevel = 'customer';
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $modelLabel = 'Customer';
     protected static ?int $navigationSort = 2;
@@ -90,10 +88,6 @@ class CustomerResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\Filter::make('Active')
-                    ->query(fn(Builder $query): Builder => $query->whereNull('deleted_at')),
-                Tables\Filters\Filter::make('Recently Added')
-                    ->query(fn(Builder $query): Builder => $query->where('created_at', '>=', now()->subMonth())),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

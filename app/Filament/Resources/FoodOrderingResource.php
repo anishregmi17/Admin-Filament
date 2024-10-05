@@ -100,6 +100,13 @@ class FoodOrderingResource extends Resource
                         'completed' => 'Completed',
                         'canceled' => 'Canceled',
                     ]),
+                SelectFilter::make('customer_id')
+                ->relationship('customer', 'name')
+                ->label('Customer'),
+                
+                SelectFilter::make('food_item_id')
+                ->relationship('foodItem', 'name')
+                ->label('Food Item'),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
