@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             RestaurantStaffSeeder::class,
             FoodItemSeeder::class,
             FoodOrderingSeeder::class,
+            PaymentSeeder::class,
+            InvoiceSeeder::class,
         ]);
     }
 }
