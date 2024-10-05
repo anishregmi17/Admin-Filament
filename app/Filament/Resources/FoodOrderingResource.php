@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
 use Filament\Forms\Form;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 
@@ -92,6 +93,13 @@ class FoodOrderingResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'completed' => 'Completed',
+                        'canceled' => 'Canceled',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
