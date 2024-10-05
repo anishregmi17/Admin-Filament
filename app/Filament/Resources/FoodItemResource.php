@@ -6,8 +6,8 @@ use App\Filament\Resources\FoodItemResource\Pages;
 use App\Models\FoodItem;
 use Filament\Forms;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
 
 class FoodItemResource extends Resource
 {
@@ -84,13 +84,22 @@ class FoodItemResource extends Resource
                 // Add custom filters here if needed
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
+                    ->label('Actions')
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->size(ActionSize::Small)
+                    ->color('gray')
+                    ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])
+                    ->button()
+                    ->color('gray'),
             ]);
     }
 

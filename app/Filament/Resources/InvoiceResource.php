@@ -3,16 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\InvoiceResource\Pages;
-use App\Filament\Resources\InvoiceResource\RelationManagers;
 use App\Models\Invoice;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\Relationship;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class InvoiceResource extends Resource
 {
@@ -28,7 +24,6 @@ class InvoiceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('food_ordering_id')
-                    - relationship()
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('amount')
@@ -74,7 +69,9 @@ class InvoiceResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])
+                    ->button()
+                    ->color('gray'),
             ]);
     }
 

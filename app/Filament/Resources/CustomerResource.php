@@ -2,16 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\RelationManagers\CustomerRelationManager;
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Models\Customer;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomerResource extends Resource
 {
@@ -97,14 +96,22 @@ class CustomerResource extends Resource
                     ->query(fn(Builder $query): Builder => $query->where('created_at', '>=', now()->subMonth())),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
+                    ->label('Actions')
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->size(ActionSize::Small)
+                    ->color('gray')
+                    ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])
+                    ->button()
+                    ->color('gray'),
             ])
             ->defaultSort('created_at', 'desc');
     }
