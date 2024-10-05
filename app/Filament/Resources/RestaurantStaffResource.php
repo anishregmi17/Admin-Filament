@@ -14,9 +14,8 @@ use Filament\Tables\Table;
 class RestaurantStaffResource extends Resource
 {
     protected static ?string $model = RestaurantStaff::class;
-    protected static ?string $navigationGroup = 'Staff & Customers';
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Restaurant Staff';
+    protected static ?string $navigationIcon = 'heroicon-s-user-group';
 
     protected static ?int $navigationSort = 1;
 

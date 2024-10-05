@@ -18,7 +18,7 @@ class FoodOrderingResource extends Resource
 {
     protected static ?string $model = FoodOrdering::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bell';
 
     protected static ?string $navigationGroup = 'Customers Food Ordering';
     protected static ?int $navigationSort = 4;
