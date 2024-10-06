@@ -28,8 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->font('Poppins')
-        ->brandName('Firefly Restro')
-        ->colors([
+            ->brandName('Anish Restro')
+            ->colors([
                 'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

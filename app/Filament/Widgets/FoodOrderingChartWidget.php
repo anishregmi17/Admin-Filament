@@ -6,7 +6,7 @@ use Filament\Widgets\ChartWidget;
 
 class FoodOrderingChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'Food Ordering Chart';
     protected static ?int $sort = 2;
     protected function getData(): array
     {

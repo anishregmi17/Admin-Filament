@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class FoodItemChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'FoodItems Chart';
     protected static ?int $sort = 3;
     protected function getData(): array
     {
