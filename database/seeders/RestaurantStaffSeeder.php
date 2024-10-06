@@ -10,6 +10,6 @@ RestaurantStaffSeeder extends Seeder
 {
     public function run(): void
     {
-        RestaurantStaff::factory()->count(5)->create();
+        RestaurantStaff::factory()->count(8)->create();
     }
 }

@@ -116,7 +116,6 @@ class RestaurantStaffResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 

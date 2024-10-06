@@ -29,24 +29,20 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255)
-                            ->autofocus()
-                            ->helperText('Enter the full name of the customer'),
+                            ->autofocus(),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->unique(Customer::class, 'email')
-                            ->helperText('Enter the customer’s email address'),
+                            ->unique(Customer::class, 'email'),
                         Forms\Components\TextInput::make('phone')
                             ->tel()
                             ->required()
-                            ->maxLength(15)
-                            ->helperText('Enter the customer’s phone number'),
+                            ->maxLength(15),
                         Forms\Components\Textarea::make('address')
                             ->required()
                             ->rows(3)
                             ->maxLength(500)
-                            ->helperText('Enter the customer’s address')
                             ->columnSpanFull(),
                     ]),
             ]);

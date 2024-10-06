@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->font('Poppins')
-            ->brandName('Anish Restro')
+            ->brandName('Pokhara Restro')
             ->colors([
                 'primary' => Color::Amber,
             ])
