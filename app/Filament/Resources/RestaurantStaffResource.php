@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class RestaurantStaffResource extends Resource
@@ -27,13 +28,28 @@ class RestaurantStaffResource extends Resource
                     ->required(),
                 Forms\Components\FileUpload::make('profile')
                     ->image(),
-                Forms\Components\TextInput::make('role')
-                    ->required(),
+                Forms\Components\Select::make('role')
+                    ->required()
+                    ->options([
+                        'restaurant_manager' => 'Restaurant Manager',
+                        'head_chef' => 'Head Chef (Executive Chef)',
+                        'sous_chef' => 'Sous Chef',
+                        'waiter' => 'Waiter/Waitress (Server)',
+                        'host' => 'Host/Hostess',
+                        'bartender' => 'Bartender',
+                        'line_cook' => 'Line Cook',
+                        'dishwasher' => 'Dishwasher',
+                        'prep_cook' => 'Prep Cook',
+                    ])
+                    ->label('Role'),
+
                 Forms\Components\TextInput::make('contact')
-                    ->required(),
+                        ->label('Contact Number')
+                        ->required()
+                        ->tel()
+                        ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -59,7 +75,19 @@ class RestaurantStaffResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-
+                SelectFilter::make('role')
+                    ->label('Role')
+                    ->options([
+                        'restaurant_manager' => 'Restaurant Manager',
+                        'head_chef' => 'Head Chef (Executive Chef)',
+                        'sous_chef' => 'Sous Chef',
+                        'waiter' => 'Waiter/Waitress (Server)',
+                        'host' => 'Host/Hostess',
+                        'bartender' => 'Bartender',
+                        'line_cook' => 'Line Cook',
+                        'dishwasher' => 'Dishwasher',
+                        'prep_cook' => 'Prep Cook',
+                    ]),
                 ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
