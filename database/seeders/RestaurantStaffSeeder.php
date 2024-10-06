@@ -5,10 +5,11 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\RestaurantStaff;
 
-class RestaurantStaffSeeder extends Seeder
+class
+RestaurantStaffSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        RestaurantStaff::factory()->count(8)->create();
+        RestaurantStaff::factory()->count(5)->create();
     }
 }

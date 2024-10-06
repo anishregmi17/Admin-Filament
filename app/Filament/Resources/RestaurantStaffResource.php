@@ -28,7 +28,7 @@ class RestaurantStaffResource extends Resource
                     ->required(),
                 Forms\Components\FileUpload::make('profile')
                     ->image()
-                    ->minSize(512)
+                    ->minSize(50)
                     ->maxSize(1024),
                 Forms\Components\Select::make('role')
                     ->required()
@@ -57,7 +57,10 @@ class RestaurantStaffResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('profile'),
+                Tables\Columns\ImageColumn::make('profile')
+                    ->width(50)
+                    ->height(50)
+                     ->rounded(),
                 Tables\Columns\TextColumn::make('role')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('contact')

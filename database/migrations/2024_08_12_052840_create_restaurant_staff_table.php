@@ -11,11 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurant_staff', function (Blueprint $table) {
-            $table->id();
+        Schema::create('restaurant_staff', function (Blueprint $table) {$table->id();
             $table->string('name');
             $table->string('profile')->nullable();
-            $table->string('role');
+            $table->enum('role', [
+                'restaurant_manager',
+                'head_chef',
+                'sous_chef',
+                'waiter',
+                'host',
+                'bartender',
+                'line_cook',
+                'dishwasher',
+                'prep_cook',
+            ]);
             $table->string('contact');
             $table->timestamps();
             $table->softDeletes();

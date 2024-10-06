@@ -23,8 +23,18 @@ class RestaurantStaffFactory extends Factory
         return [
             'name' => $this->faker->name,
             'profile' => $this->faker->imageUrl(200, 200, 'people', true, 'Profile'),
-            'role' => $this->faker->randomElement(['Manager', 'Chef', 'Waiter', 'Cashier']),
-            'contact' => $this->faker->phoneNumber,
+            'role' => $this->faker->randomElement([
+                'Manager',
+                'Chef',
+                'Waiter',
+                'Cashier',
+                'Dishwasher',
+                'Host/Hostess',
+                'Barista',
+                'Kitchen Porter',
+                'Baker'
+            ]),
+            'contact' => '98476' . $this->faker->numberBetween(10000, 99999),
         ];
     }
 }
