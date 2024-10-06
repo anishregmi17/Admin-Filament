@@ -27,7 +27,9 @@ class RestaurantStaffResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\FileUpload::make('profile')
-                    ->image(),
+                    ->image()
+                    ->minSize(512)
+                    ->maxSize(1024),
                 Forms\Components\Select::make('role')
                     ->required()
                     ->options([
@@ -46,8 +48,7 @@ class RestaurantStaffResource extends Resource
                 Forms\Components\TextInput::make('contact')
                         ->label('Contact Number')
                         ->required()
-                        ->tel()
-                        ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
+                        ->maxLength(10)
             ]);
     }
     public static function table(Table $table): Table
