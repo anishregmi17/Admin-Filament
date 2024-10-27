@@ -27,11 +27,10 @@ class RestaurantStaffResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\FileUpload::make('profile')
-                    ->image()
-                    ->minSize(50)
-                    ->maxSize(1024),
+                    ->image(),
                 Forms\Components\Select::make('role')
                     ->required()
+                    ->searchable()
                     ->options([
                         'restaurant_manager' => 'Restaurant Manager',
                         'head_chef' => 'Head Chef (Executive Chef)',
@@ -46,9 +45,20 @@ class RestaurantStaffResource extends Resource
                     ->label('Role'),
 
                 Forms\Components\TextInput::make('contact')
-                        ->label('Contact Number')
-                        ->required()
-                        ->maxLength(10)
+                    ->label('Contact Number')
+                    ->required()
+                    ->tel()
+                    ->placeholder('Enter 10-digit phone number')
+                    ->maxLength(10)
+                    ->minLength(10)
+                    ->prefixIcon('heroicon-o-phone')
+                    ->hint('Please enter a 10-digit phone number')
+                    ->hintIcon('heroicon-s-information-circle')
+                    ->autofocus()
+                    ->extraInputAttributes(['pattern' => '[0-9]{10}', 'inputmode' => 'numeric'])
+                    ->unique(ignoreRecord: true)
+                    ->reactive()
+
             ]);
     }
     public static function table(Table $table): Table
@@ -59,8 +69,7 @@ class RestaurantStaffResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('profile')
                     ->width(50)
-                    ->height(50)
-                     ->rounded(),
+                    ->height(50),
                 Tables\Columns\TextColumn::make('role')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('contact')
@@ -92,7 +101,7 @@ class RestaurantStaffResource extends Resource
                         'dishwasher' => 'Dishwasher',
                         'prep_cook' => 'Prep Cook',
                     ]),
-                ])
+            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
@@ -115,8 +124,7 @@ class RestaurantStaffResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public static function getPages(): array
