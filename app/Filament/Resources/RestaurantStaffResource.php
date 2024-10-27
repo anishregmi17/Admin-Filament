@@ -11,6 +11,7 @@ use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use App\Enums\RestaurantRoles;
 
 class RestaurantStaffResource extends Resource
 {
@@ -25,24 +26,36 @@ class RestaurantStaffResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->label('Full Name')
+                    ->placeholder('Enter full name')
+                    ->required()
+                    ->maxLength(100)
+                    ->minLength(3)
+                    ->prefixIcon('heroicon-o-user')
+                    ->autofocus()
+                    ->reactive()
+                    ->afterStateUpdated(fn($state, callable $set) => $set('name', ucwords(strtolower($state))))
+                    ->columnSpan(2),
+
                 Forms\Components\FileUpload::make('profile')
-                    ->image(),
+                    ->label('Profile Picture')
+                    ->image()
+                    ->maxSize(2048)
+                    ->minSize(100)
+                    ->imageCropAspectRatio('1:1')
+                    ->imageResizeTargetWidth('300')
+                    ->imageResizeTargetHeight('300')
+                    ->directory('uploads/profile_images')
+                    ->columnSpan(2),
+
                 Forms\Components\Select::make('role')
                     ->required()
                     ->searchable()
-                    ->options([
-                        'restaurant_manager' => 'Restaurant Manager',
-                        'head_chef' => 'Head Chef (Executive Chef)',
-                        'sous_chef' => 'Sous Chef',
-                        'waiter' => 'Waiter/Waitress (Server)',
-                        'host' => 'Host/Hostess',
-                        'bartender' => 'Bartender',
-                        'line_cook' => 'Line Cook',
-                        'dishwasher' => 'Dishwasher',
-                        'prep_cook' => 'Prep Cook',
-                    ])
-                    ->label('Role'),
+                    ->options(collect(RestaurantRoles::cases())->mapWithKeys(fn($role) => [$role->value => $role->label()]))
+                    ->label('Role')
+                    ->helperText(fn($get) => RestaurantRoles::tryFrom($get('role'))?->description())
+                    ->reactive()
+                    ->placeholder('Select a role'),
 
                 Forms\Components\TextInput::make('contact')
                     ->label('Contact Number')
@@ -52,7 +65,6 @@ class RestaurantStaffResource extends Resource
                     ->maxLength(10)
                     ->minLength(10)
                     ->prefixIcon('heroicon-o-phone')
-                    ->hint('Please enter a 10-digit phone number')
                     ->hintIcon('heroicon-s-information-circle')
                     ->autofocus()
                     ->extraInputAttributes(['pattern' => '[0-9]{10}', 'inputmode' => 'numeric'])
@@ -66,26 +78,69 @@ class RestaurantStaffResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->label('Staff Name')
+                    ->sortable()
+                    ->searchable()
+                    ->color('primary')
+                    ->wrap(),
+
                 Tables\Columns\ImageColumn::make('profile')
-                    ->width(50)
-                    ->height(50),
+                    ->label('Profile Picture')
+                    ->circular()
+                    ->width(60)
+                    ->height(60)
+                    ->alignCenter(),
+
                 Tables\Columns\TextColumn::make('role')
-                    ->searchable(),
+                    ->label('Role')
+                    ->sortable()
+                    ->searchable()
+                    ->badge()
+                    ->color(fn($state) => match ($state) {
+                        'restaurant_manager' => 'success',
+                        'head_chef' => 'warning',
+                        'sous_chef' => 'secondary',
+                        'waiter' => 'primary',
+                        'host' => 'info',
+                        'bartender' => 'primary',
+                        'line_cook' => 'gray',
+                        'dishwasher' => 'danger',
+                        'prep_cook' => 'secondary',
+                        default => 'gray',
+                    }),
+
                 Tables\Columns\TextColumn::make('contact')
-                    ->searchable(),
+                    ->label('Contact Number')
+                    ->sortable()
+                    ->searchable()
+                    ->alignCenter()
+                    ->icon('heroicon-o-phone')
+                    ->iconPosition('before')
+                    ->wrap(),
+
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Created At')
+                    ->dateTime('F j, Y, g:i a')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->color('success')
+                    ->alignRight(),
+
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Updated At')
+                    ->dateTime('F j, Y, g:i a')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->color('primary')
+                    ->alignRight(),
+
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
+                    ->label('Deleted At')
+                    ->dateTime('F j, Y, g:i a')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->color('danger')
+                    ->alignRight(),
             ])
             ->filters([
                 SelectFilter::make('role')
