@@ -40,8 +40,6 @@ class RestaurantStaffResource extends Resource
                 Forms\Components\FileUpload::make('profile')
                     ->label('Profile Picture')
                     ->image()
-                    ->maxSize(2048)
-                    ->minSize(100)
                     ->imageCropAspectRatio('1:1')
                     ->imageResizeTargetWidth('300')
                     ->imageResizeTargetHeight('300')
