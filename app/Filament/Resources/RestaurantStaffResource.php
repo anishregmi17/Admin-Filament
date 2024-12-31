@@ -140,21 +140,6 @@ class RestaurantStaffResource extends Resource
                     ->color('danger')
                     ->alignRight(),
             ])
-            ->filters([
-                SelectFilter::make('role')
-                    ->label('Role')
-                    ->options([
-                        'restaurant_manager' => 'Restaurant Manager',
-                        'head_chef' => 'Head Chef (Executive Chef)',
-                        'sous_chef' => 'Sous Chef',
-                        'waiter' => 'Waiter/Waitress (Server)',
-                        'host' => 'Host/Hostess',
-                        'bartender' => 'Bartender',
-                        'line_cook' => 'Line Cook',
-                        'dishwasher' => 'Dishwasher',
-                        'prep_cook' => 'Prep Cook',
-                    ]),
-            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
